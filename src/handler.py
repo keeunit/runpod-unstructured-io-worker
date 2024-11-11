@@ -41,13 +41,16 @@ def check_server():
         print(f"Request failed: {e}")
     return False
 
-# Call the function every 500 ms until it succeeds
+# Call the function every 100 ms until it succeeds
 while not check_server():
-    time.sleep(0.5)  # 500 ms
+    time.sleep(0.1)
 
 def make_request(params: dict):
     url = 'http://localhost:8000/general/v0/general'
     headers = {'accept': 'application/json'}
+
+    print("Handling request for the following params")
+    print(params)
 
     # Extract the file path and remove it from params
     file_path = params.pop('files')
@@ -55,8 +58,10 @@ def make_request(params: dict):
     # Open the file and send the request
     file_content = requests.get(file_path).content
 
-    file_type, _ = mimetypes.guess_type(file_path)
-    files = {'files': ('filename', file_content, file_type or 'application/octet-stream')}
+
+    file_content_type = params.get("content_type") or 'application/octet-stream'
+    print("using content type " + file_content_type)
+    files = {'files': ('filename', file_content, file_content_type)}
     data = {key: str(value) for key, value in params.items()}
 
     response = requests.post(url, headers=headers, files=files, data=data)

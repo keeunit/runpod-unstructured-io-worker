@@ -9,9 +9,6 @@ USER root
 RUN apk add --no-cache supervisor && \
     pip install setuptools
 
-# Switch back to the non-root user
-USER ${NB_USER}
-
 # Python dependencies
 COPY requirements.txt /requirements.txt
 RUN python3.11 -m pip install --upgrade pip && \

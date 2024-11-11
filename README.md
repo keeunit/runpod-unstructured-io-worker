@@ -1,3 +1,7 @@
+# Build
+```docker buildx build --platform linux/amd64 -t keeunit/runpod-unstructured-io-worker:0.3.2 .```
+Remember to replace the version in the tag
+
 <div align="center">
 
 <h1>Template | Worker</h1>
